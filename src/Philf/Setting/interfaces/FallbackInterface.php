@@ -10,7 +10,7 @@ interface FallbackInterface {
      * @param $key
      * @return mixed
      */
-    public function fallbackGet($key, $default = null);
+    public function fallbackGet($key);
 
     /**
      * @param $key

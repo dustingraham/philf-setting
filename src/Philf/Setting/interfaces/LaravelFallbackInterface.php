@@ -11,9 +11,9 @@ class LaravelFallbackInterface implements FallbackInterface {
      * @param $key
      * @return mixed
      */
-    public function fallbackGet($key, $default = null)
+    public function fallbackGet($key)
     {
-        return \App::make('config')->get($key, $default);
+        return \App::make('config')->get($key);
     }
 
     /**
@@ -22,13 +22,6 @@ class LaravelFallbackInterface implements FallbackInterface {
      */
     public function fallbackHas($key)
     {
-        $settingExists = \App::make('config')->has($key);
-
-        $setting = \App::make('config')->get($key);
-        if (is_array($setting) and count($setting) == 0) {
-            return false;
-        }
-
-        return $settingExists;
+        return \App::make('config')->has($key);
     }
 }

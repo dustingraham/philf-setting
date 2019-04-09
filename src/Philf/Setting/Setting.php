@@ -106,30 +106,29 @@ class Setting {
 
     /**
      * Get a value and return it
-     * @param string $key String using dot notation
-     * @param Mixed $default
+     * @param  string $searchKey String using dot notation
      * @return Mixed             The value(s) found
      */
-    public function get($key = null, $default = null)
+    public function get($searchKey = null, $fallback = null)
     {
-        if (empty($key))
+        if (empty($searchKey))
         {
             return $this->settings;
         }
 
-        $ts = microtime(true);
+        $default = microtime(true);
 
-        if($ts !== array_get($this->settings, $key, $ts))
+        if($default !== array_get($this->settings, $searchKey, $default))
         {
-            return array_get($this->settings, $key);
+            return array_get($this->settings, $searchKey);
         }
 
-        if ( ! is_null($this->fallback) and $this->fallback->fallbackHas($key))
+        if ( ! is_null($this->fallback) and $this->fallback->fallbackHas($searchKey))
         {
-            return $this->fallback->fallbackGet($key, $default);
+            return $this->fallback->fallbackGet($searchKey);
         }
 
-        return $default;
+        return ($fallback ?: null);
     }
 
      /**
@@ -206,6 +205,7 @@ class Setting {
     {
         $this->path     = isset($path) ? $path : $this->path;
         $this->filename = isset($filename) ? $filename : $this->filename;
+
         if ( ! file_exists($this->path))
         {
             mkdir($this->path, 0755, true);
